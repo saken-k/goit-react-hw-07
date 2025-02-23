@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchContacts } from "./redux/contactsOps";
 import { useEffect } from "react";
 import { selectError } from "./redux/contactsSlice";
-import iziToast from "izitoast";
+import toast from "react-hot-toast";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,12 +19,7 @@ function App() {
 
   useEffect(() => {
     if (error) {
-      iziToast.error({
-        title: "Error",
-        message: error,
-        position: "topRight",
-        timeout: 5000,
-      });
+      toast.error(error);
     }
   }, [error]);
 

@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import iziToast from "izitoast";
+import toast from "react-hot-toast";
 import { addContact, deleteContact, fetchContacts } from "./contactsOps";
 import { selectNameFilter } from "./filtersSlice";
 
@@ -30,6 +30,7 @@ const contactsSlice = createSlice({
           (contact) => contact.id !== action.payload
         );
         state.loading = false;
+        toast.success("Contact deleted successfully!");
       })
       .addCase(deleteContact.pending, (state) => {
         state.loading = true;
@@ -44,24 +45,13 @@ const contactsSlice = createSlice({
         );
 
         if (isDuplicate) {
-          iziToast.error({
-            title: "Error",
-            message: "This number already exists in the contact list.",
-            position: "topRight",
-            timeout: 3000,
-          });
-          return;
+          return toast.error("This number already exists in the contact list.");
         }
 
         state.items.push(action.payload);
         state.loading = false;
 
-        iziToast.success({
-          title: "Success",
-          message: "Contact added successfully!",
-          position: "topRight",
-          timeout: 3000,
-        });
+        toast.success("Contact added successfully!");
       })
       .addCase(addContact.pending, (state) => {
         state.loading = true;
